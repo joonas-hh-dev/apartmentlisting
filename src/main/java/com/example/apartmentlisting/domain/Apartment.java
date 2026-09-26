@@ -1,6 +1,23 @@
 package com.example.apartmentlisting.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
+@Entity 
 public class Apartment {
+
+    // Create empty contructor so that JPA can create apartment objects
+    public Apartment() {}
+
+    // Crate Id so that Apartment can be saved to JPA database
+    // Set Id to autogenerate
+    @Id 
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+
     // Define attributes
     // Set modifier to private so that values cannot be reassigned without setters
     private String apartmentType;
@@ -9,19 +26,26 @@ public class Apartment {
     private int rooms;
     private int yearBuilt;
     private int floor;
+    @ManyToOne
+    private Seller seller;
 
     // Define constructor
     // Set modifier to public so that other classes can create apartments
-    public Apartment(String apartmentType, String address, float size, int rooms, int yearBuilt, int floor) {
+    public Apartment(String apartmentType, String address, float size, int rooms, int yearBuilt, int floor, Seller seller) {
         this.apartmentType = apartmentType;
         this.address = address;
         this.size = size;
         this.rooms = rooms;
         this.yearBuilt = yearBuilt;
         this.floor = floor;
+        this.seller = seller;
     }
 
     // Define getters & setters to fetch & modify apartment attributes
+    public Long getId() {
+        return id;
+    }
+
     public String getApartmentType() {
         return apartmentType;
     }
@@ -46,6 +70,14 @@ public class Apartment {
         return floor;
     }
 
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setApartmentType(String apartmentType) {
         this.apartmentType = apartmentType;
     }
@@ -68,5 +100,9 @@ public class Apartment {
 
     public void setFloor(int floor) {
         this.floor = floor;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
     }
 }
