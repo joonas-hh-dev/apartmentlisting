@@ -28,12 +28,11 @@ public class Seller {
     @OneToMany(mappedBy = "seller") 
     private List<Apartment> apartments = new ArrayList<>();
 
-    public Seller(String firstName, String lastName, String phoneNumber, String email, List<Apartment> apartments) {
+    public Seller(String firstName, String lastName, String phoneNumber, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.apartments = apartments;
     }
 
     public String getFirstName() {

@@ -22,6 +22,8 @@ public class Apartment {
     // Set modifier to private so that values cannot be reassigned without setters
     private String apartmentType;
     private String address;
+    private String zipCode;
+    private String city;
     private float size;
     private int rooms;
     private int yearBuilt;
@@ -31,9 +33,11 @@ public class Apartment {
 
     // Define constructor
     // Set modifier to public so that other classes can create apartments
-    public Apartment(String apartmentType, String address, float size, int rooms, int yearBuilt, int floor, Seller seller) {
+    public Apartment(String apartmentType, String address, String zipCode, String city, float size, int rooms, int yearBuilt, int floor, Seller seller) {
         this.apartmentType = apartmentType;
         this.address = address;
+        this.zipCode = zipCode;
+        this.city = city;
         this.size = size;
         this.rooms = rooms;
         this.yearBuilt = yearBuilt;
@@ -52,6 +56,14 @@ public class Apartment {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public float getSize() {
@@ -84,6 +96,14 @@ public class Apartment {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public void setSize(float size) {
