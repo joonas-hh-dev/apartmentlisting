@@ -20,11 +20,11 @@ public class Apartment {
 
     // Define attributes
     // Set modifier to private so that values cannot be reassigned without setters
-    private String apartmentType;
+    private String type;
     private String address;
     private String zipCode;
     private String city;
-    private float size;
+    private String area;
     private int rooms;
     private int yearBuilt;
     private int floor;
@@ -33,12 +33,12 @@ public class Apartment {
 
     // Define constructor
     // Set modifier to public so that other classes can create apartments
-    public Apartment(String apartmentType, String address, String zipCode, String city, float size, int rooms, int yearBuilt, int floor, Seller seller) {
-        this.apartmentType = apartmentType;
+    public Apartment(String type, String address, String zipCode, String city, String area, int rooms, int yearBuilt, int floor, Seller seller) {
+        this.type = type;
         this.address = address;
         this.zipCode = zipCode;
         this.city = city;
-        this.size = size;
+        this.area = area;
         this.rooms = rooms;
         this.yearBuilt = yearBuilt;
         this.floor = floor;
@@ -50,8 +50,8 @@ public class Apartment {
         return id;
     }
 
-    public String getApartmentType() {
-        return apartmentType;
+    public String getType() {
+        return type;
     }
 
     public String getAddress() {
@@ -66,8 +66,8 @@ public class Apartment {
         return city;
     }
 
-    public float getSize() {
-        return size;
+    public String getArea() {
+        return area;
     }
 
     public int getRooms() {
@@ -90,8 +90,8 @@ public class Apartment {
         this.id = id;
     }
 
-    public void setApartmentType(String apartmentType) {
-        this.apartmentType = apartmentType;
+    public void setApartmentType(String type) {
+        this.type = type;
     }
 
     public void setAddress(String address) {
@@ -106,8 +106,8 @@ public class Apartment {
         this.city = city;
     }
 
-    public void setSize(float size) {
-        this.size = size;
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public void setRooms(int rooms) {

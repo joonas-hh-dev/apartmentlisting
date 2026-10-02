@@ -27,16 +27,16 @@ public class ApartmentlistingApplication {
 			Seller seller2 = new Seller("Erkki", "Esimerkki", "+358502223344", "erkki.esimerkki@malli.com");
 			sellerRepository.save(seller2);
 
-			Apartment apartment = new Apartment("Kerrostalo", "Ulvilantie 11 b C 80", "00350", "Helsinki", 33.5f, 1, 1955, 8, seller);
+			Apartment apartment = new Apartment("Kerrostalo", "Ulvilantie 11 b C 80", "00350", "Helsinki", "33.5m2", 1, 1955, 8, seller);
 			apartmentRepository.save(apartment);
 
-			Apartment apartment2 = new Apartment("Kerrostalo", "Sirkkalankatu 7 B 20", "20500", "Turku", 35.0f, 1, 1972, 4, seller2);
+			Apartment apartment2 = new Apartment("Kerrostalo", "Sirkkalankatu 7 B 20", "20500", "Turku", "35m2", 1, 1972, 4, seller2);
 			apartmentRepository.save(apartment2);
 
-			Apartment apartment3 = new Apartment("Kerrostalo", "Niittaajankatu 10 B 19","00810", "Helsinki", 33.0f, 1, 2019, 2, seller);
+			Apartment apartment3 = new Apartment("Kerrostalo", "Niittaajankatu 10 B 19","00810", "Helsinki", "33m2", 1, 2019, 2, seller);
 			apartmentRepository.save(apartment3);
 
-			Apartment apartment4 = new Apartment("Kerrostalo", "Vähä Hämeenkatu 5 C 15", "20500", "Turku", 30.0f, 1, 1968, 3, seller2);
+			Apartment apartment4 = new Apartment("Kerrostalo", "Vähä Hämeenkatu 5 C 15", "20500", "Turku", "30m2", 1, 1968, 3, seller2);
 			apartmentRepository.save(apartment4);
 		};
 	}

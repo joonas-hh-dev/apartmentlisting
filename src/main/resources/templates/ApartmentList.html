@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <title>Myytävät asunnot</title>
+</head>
+<body>
+    <h2>Myytävät asunnot</h2>
+    <table>
+        <tr>
+            <th>Kaupunki</th>
+            <th>Osoite</th>
+            <th>Tyyppi</th>
+            <th>Huoneita</th>
+            <th>Rakennusvuosi</th>
+        </tr>
+        <tr th:each="apartment: ${apartments}">
+            <td th:text="${apartment.city}"></td>
+            <td th:text="${apartment.address}"></td>
+            <td th:text="${apartment.type}"></td>
+            <td th:text="${apartment.rooms}"></td>
+            <td th:text="${apartment.yearBuilt}"></td>
+            <td>
+                <a th:href="@{/apartment/{id}(id=${apartment.id})}">Näytä asunto</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
