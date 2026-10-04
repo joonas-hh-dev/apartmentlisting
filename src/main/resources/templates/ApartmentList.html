@@ -15,6 +15,7 @@
             <th>Rakennusvuosi</th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         <tr th:each="apartment: ${apartments}">
             <td th:text="${apartment.city}"></td>
@@ -23,10 +24,13 @@
             <td th:text="${apartment.rooms}"></td>
             <td th:text="${apartment.yearBuilt}"></td>
             <td>
-                <a th:href="@{/apartments/{id}(id=${apartment.id})}" class="btn btn-primary">Näytä asunto</a>
+                <a th:href="@{/apartments/{id}(id=${apartment.id})}" class="btn btn-primary">Näytä</a>
             </td>
             <td>
-                <a th:href="@{/apartments/delete/{id}(id=${apartment.id})}" class="btn btn-danger">Poista asunto</a>
+                <a th:href="@{/apartments/edit/{id}(id=${apartment.id})}" class="btn btn-info">Muokkaa</a>
+            </td>
+            <td>
+                <a th:href="@{/apartments/delete/{id}(id=${apartment.id})}" class="btn btn-danger">Poista</a>
             </td>
         </tr>
     </table>

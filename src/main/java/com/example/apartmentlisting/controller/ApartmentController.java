@@ -14,6 +14,7 @@ import com.example.apartmentlisting.domain.Apartment;
 import com.example.apartmentlisting.domain.Seller;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -75,6 +76,48 @@ public class ApartmentController {
         apartmentRepository.save(apartment);
         return "redirect:/apartments";
     }
+
+    // Open edit apartment form
+    @GetMapping("/apartments/edit/{id}")
+    public String showEditApartmentForm(@PathVariable Long id, Model model) {
+        Optional<Apartment> result = apartmentRepository.findById(id);
+        model.addAttribute("sellers", sellerRepository.findAll());
+        Apartment apartment = result.get();
+        model.addAttribute("apartment", apartment);
+        return "EditApartment";
+    }
+
+    // Save edited apartment
+    @PostMapping("/apartments/edit/{id}")
+    public String saveEditApartmentForm(
+        @PathVariable Long id,
+        @RequestParam String type,
+        @RequestParam String address,
+        @RequestParam String zipCode,
+        @RequestParam String city,
+        @RequestParam String area,
+        @RequestParam int rooms,
+        @RequestParam int yearBuilt,
+        @RequestParam int floor,
+        @RequestParam Long seller
+    ) {
+        Optional<Apartment> optionalApartment = apartmentRepository.findById(id);
+        Apartment apartment = optionalApartment.get();
+        Optional<Seller> optionalSeller = sellerRepository.findById(seller);
+        Seller sellerId = optionalSeller.get();
+        apartment.setApartmentType(type);
+        apartment.setAddress(address);
+        apartment.setZipCode(zipCode);
+        apartment.setCity(city);
+        apartment.setArea(area);
+        apartment.setRooms(rooms);
+        apartment.setYearBuilt(yearBuilt);
+        apartment.setFloor(floor);
+        apartment.setSeller(sellerId);
+        apartmentRepository.save(apartment);
+        return "redirect:/apartments";
+    }
+    
 
     // Delete existing apartment
     @GetMapping("/apartments/delete/{id}")
