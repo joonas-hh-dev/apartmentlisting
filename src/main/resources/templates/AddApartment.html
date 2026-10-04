@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <title>Lisää asunto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <form th:object="${apartment}" method="post">
+            <label for="type" class="form-label">Asuntotyyppi:</label>
+            <select th:field="*{type}" id="type" class="form-select">
+                <option value="">Valitse asuntotyyppi</option>
+                <option value="Kerrostalo">Kerrostalo</option>
+                <option value="Rivitalo">Rivitalo</option>
+                <option value="Paritalo">Rivitalo</option>
+                <option value="Omakotitalo">Omakotitalo</option>
+                <option value="Omakotitalo">Puutalo-osake</option>
+            </select>
+            <div>
+                <label for="address" class="form-label">Osoite:</label>
+                <input type="text" class="form-control" th:field="*{address}">
+            </div>
+            <div>
+                <label for="zipCode" class="form-label">Postinumero:</label>
+                <input type="text" class="form-control" th:field="*{zipCode}">
+            </div>
+            <div>
+                <label for="city" class="form-label">Kaupunki:</label>
+                <input type="text" class="form-control" th:field="*{city}">
+            </div>
+            <div>
+                <label for="area" class="form-label">Pinta-ala:</label>
+                <input type="text" class="form-control" th:field="*{area}">
+            </div>
+            <div>
+                <label for="rooms" class="form-label">Huoneita:</label>
+                <input type="number" class="form-control" th:field="*{rooms}">
+            </div>
+            <div>
+                <label for="yearBuilt" class="form-label">Rakennusvuosi:</label>
+                <input type="number" class="form-control" th:field="*{yearBuilt}">
+            </div>
+            <div>
+                <label for="floor" class="form-label">Kerros:</label>
+                <input type="number" class="form-control" th:field="*{floor}">
+            </div>
+            <label for="type" class="form-label">Myyjä:</label>
+            <select th:field="*{seller}" class="form-select">
+                <option value="">Valitse myyjä</option>
+                <option th:each="seller : ${sellers}"
+                th:value="${seller.id}"
+                th:text="${seller.firstName + ' ' + seller.lastName}">
+                </option>
+            </select>
+            <button type="submit" class="btn btn-primary">Tallenna</button>
+        </form>
+    </div>
+</body>
+</html>

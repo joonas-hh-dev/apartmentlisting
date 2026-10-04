@@ -2,16 +2,19 @@
 <html xmlns:th="https://www.thymeleaf.org/">
 <head>
     <title>Myytävät asunnot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <h2>Myytävät asunnot</h2>
-    <table>
+    <table class="table table-striped">
         <tr>
             <th>Kaupunki</th>
             <th>Osoite</th>
             <th>Tyyppi</th>
             <th>Huoneita</th>
             <th>Rakennusvuosi</th>
+            <th></th>
+            <th></th>
         </tr>
         <tr th:each="apartment: ${apartments}">
             <td th:text="${apartment.city}"></td>
@@ -20,9 +23,13 @@
             <td th:text="${apartment.rooms}"></td>
             <td th:text="${apartment.yearBuilt}"></td>
             <td>
-                <a th:href="@{/apartment/{id}(id=${apartment.id})}">Näytä asunto</a>
+                <a th:href="@{/apartments/{id}(id=${apartment.id})}" class="btn btn-primary">Näytä asunto</a>
+            </td>
+            <td>
+                <a th:href="@{/apartments/delete/{id}(id=${apartment.id})}" class="btn btn-danger">Poista asunto</a>
             </td>
         </tr>
     </table>
+    <a th:href="@{/apartments/add}" class="btn btn-primary">Lisää asunto</a>
 </body>
 </html>
