@@ -117,7 +117,6 @@ public class ApartmentController {
         apartmentRepository.save(apartment);
         return "redirect:/apartments";
     }
-    
 
     // Delete existing apartment
     @GetMapping("/apartments/delete/{id}")
@@ -126,5 +125,10 @@ public class ApartmentController {
         return "redirect:/apartments";
     }
     
+    // Open login form
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
     
 }

@@ -4,11 +4,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.apartmentlisting.domain.Apartment;
 import com.example.apartmentlisting.domain.Seller;
+import com.example.apartmentlisting.domain.User;
 import com.example.apartmentlisting.repository.ApartmentRepository;
 import com.example.apartmentlisting.repository.SellerRepository;
+import com.example.apartmentlisting.repository.UserRepository;
 
 @SpringBootApplication
 public class ApartmentlistingApplication {
@@ -19,7 +22,7 @@ public class ApartmentlistingApplication {
 
 	// Initialize Seller object first
 	@Bean
-	public CommandLineRunner demoRunner(SellerRepository sellerRepository, ApartmentRepository apartmentRepository) {
+	public CommandLineRunner demoRunner(SellerRepository sellerRepository, ApartmentRepository apartmentRepository, UserRepository userRepository) {
 		return args -> {
 			Seller seller = new Seller("Mikko", "Mallikas", "+358401112233", "mikko.mallikas@esimerkki.com");
 			sellerRepository.save(seller);
@@ -38,6 +41,15 @@ public class ApartmentlistingApplication {
 
 			Apartment apartment4 = new Apartment("Kerrostalo", "Vähä Hämeenkatu 5 C 15", "20500", "Turku", "30m2", 1, 1968, 3, seller2);
 			apartmentRepository.save(apartment4);
+
+			// Create new BCryptPasswordEncoder  object
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+			User user = new User("user", passwordEncoder.encode("user"), "USER");
+			User user2 = new User("admin", passwordEncoder.encode("admin"), "ADMIN");
+	
+			userRepository.save(user);
+			userRepository.save(user2);
 		};
 	}
 }
