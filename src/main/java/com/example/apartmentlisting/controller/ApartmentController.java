@@ -1,6 +1,7 @@
 package com.example.apartmentlisting.controller;
 
-import java.util.Locale.Category;
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -9,13 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.apartmentlisting.repository.ApartmentRepository;
+import com.example.apartmentlisting.repository.FavoriteRepository;
 import com.example.apartmentlisting.repository.SellerRepository;
+import com.example.apartmentlisting.repository.UserRepository;
 import com.example.apartmentlisting.domain.Apartment;
+import com.example.apartmentlisting.domain.Favorite;
 import com.example.apartmentlisting.domain.Seller;
+import com.example.apartmentlisting.domain.User;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -26,17 +29,33 @@ public class ApartmentController {
     // Store the repositories
     private final ApartmentRepository apartmentRepository;
     private final SellerRepository sellerRepository;
+    private final FavoriteRepository favoriteRepository;
+    private final UserRepository userRepository;
 
     // Create a constructor
-    ApartmentController(ApartmentRepository apartmentRepository, SellerRepository sellerRepository) {
+    ApartmentController(
+        ApartmentRepository apartmentRepository,
+        SellerRepository sellerRepository,
+        FavoriteRepository favoriteRepository,
+        UserRepository userRepository
+    ) {
         this.apartmentRepository = apartmentRepository;
         this.sellerRepository = sellerRepository;
+        this.favoriteRepository = favoriteRepository;
+        this.userRepository = userRepository;
     }
 
     // Pass the repository to the view using model.addAttribute
     @GetMapping("/apartments") 
-    public String getApartmentList(Model model) {
+    public String getApartmentList(Model model, Principal principal) {
         model.addAttribute("apartments", apartmentRepository.findAll());
+        if (principal != null) {
+            String username = principal.getName();
+            Optional<User> optionalUser = userRepository.findByUsername(username);
+            User user = optionalUser.get();
+            List<Favorite> favorites = favoriteRepository.findByUser(user);
+            model.addAttribute("favorites", favorites);
+        }
         return "ApartmentList";
     }
 
@@ -130,5 +149,19 @@ public class ApartmentController {
     public String showLoginForm() {
         return "login";
     }
+
+    // Save favorite
+    @PostMapping("/favorites/add/{id}")
+    public String addToFavorites(@PathVariable Long id, Principal principal) {
+        Optional<Apartment> optionalApartment = apartmentRepository.findById(id);
+        Apartment apartment = optionalApartment.get();
+        String username = principal.getName();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        User user = optionalUser.get();
+        Favorite favorite = new Favorite(user, apartment);
+        favoriteRepository.save(favorite);
+        return "redirect:/apartments";
+    }
+    
     
 }

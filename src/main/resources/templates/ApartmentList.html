@@ -16,6 +16,7 @@
             <th></th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         <tr th:each="apartment: ${apartments}">
             <td th:text="${apartment.city}"></td>
@@ -27,14 +28,22 @@
                 <a th:href="@{/apartments/{id}(id=${apartment.id})}" class="btn btn-primary">Näytä</a>
             </td>
             <td>
-                <a th:href="@{/apartments/edit/{id}(id=${apartment.id})}" class="btn btn-info">Muokkaa</a>
+                <form th:if="${favorites != null}" th:action="@{/favorites/add/{id}(id=${apartment.id})}" method="post">
+                    <button type="submit" class="btn btn-link text-decoration-none p-1" title="Lisää suosikiksi">
+                        <span th:if="${favorites != null and favorites.![apartment].contains(apartment)}">★</span>
+                        <span th:unless="${favorites != null and favorites.![apartment].contains(apartment)}">☆</span>
+                    </button>
+                </form>
             </td>
             <td>
-                <a th:href="@{/apartments/delete/{id}(id=${apartment.id})}" class="btn btn-danger">Poista</a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/apartments/edit/{id}(id=${apartment.id})}" class="btn btn-info">Muokkaa</a>
+            </td>
+            <td>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/apartments/delete/{id}(id=${apartment.id})}" class="btn btn-danger">Poista</a>
             </td>
         </tr>
     </table>
-    <a th:href="@{/apartments/add}" class="btn btn-primary">Lisää asunto</a>
+    <a sec:authorize="hasRole('ADMIN')" th:href="@{/apartments/add}" class="btn btn-primary">Lisää asunto</a>
      <a th:href="@{/login}" class="btn btn-info">Kirjaudu sisään</a>
 </body>
 </html>
