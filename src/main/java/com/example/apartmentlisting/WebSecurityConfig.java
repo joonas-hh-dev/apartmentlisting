@@ -28,8 +28,11 @@ public class WebSecurityConfig {
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/apartments/*").permitAll()
                 .anyRequest().authenticated()
-            ).formLogin(formlogin -> formlogin
-                .defaultSuccessUrl("/apartments", true).permitAll());
+            ).formLogin(form -> form
+                .defaultSuccessUrl("/apartments", true).permitAll())
+                .logout(logout -> logout
+                .logoutSuccessUrl("/apartments")
+                .permitAll());
 		return http.build();
 	}
         

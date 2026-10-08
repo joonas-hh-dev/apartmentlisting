@@ -13,6 +13,9 @@ import com.example.apartmentlisting.repository.ApartmentRepository;
 import com.example.apartmentlisting.repository.FavoriteRepository;
 import com.example.apartmentlisting.repository.SellerRepository;
 import com.example.apartmentlisting.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.example.apartmentlisting.domain.Apartment;
 import com.example.apartmentlisting.domain.Favorite;
 import com.example.apartmentlisting.domain.Seller;
@@ -20,6 +23,8 @@ import com.example.apartmentlisting.domain.User;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 // Declare the controller
@@ -158,8 +163,23 @@ public class ApartmentController {
         String username = principal.getName();
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.get();
-        Favorite favorite = new Favorite(user, apartment);
-        favoriteRepository.save(favorite);
+        if (!favoriteRepository.existsByUserAndApartment(user, apartment)) {
+            Favorite favorite = new Favorite(user, apartment);
+            favoriteRepository.save(favorite);
+        }
+        return "redirect:/apartments";
+    }
+    
+    // Delete favorite
+    @Transactional 
+    @PostMapping("/favorites/delete/{id}")
+    public String deleteFromFavorites(@PathVariable  Long id, Principal principal) {
+        Optional<Apartment> optionalApartment = apartmentRepository.findById(id);
+        Apartment apartment = optionalApartment.get();
+        String username = principal.getName();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        User user = optionalUser.get();
+        favoriteRepository.deleteByUserAndApartment(user, apartment);
         return "redirect:/apartments";
     }
     
