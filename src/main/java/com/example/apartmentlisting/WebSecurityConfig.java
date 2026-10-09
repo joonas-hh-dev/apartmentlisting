@@ -24,6 +24,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/apartments/delete/**").hasRole("ADMIN")
                 .requestMatchers("/apartments/edit/**").hasRole("ADMIN")
                 .requestMatchers("/apartments/add/**").hasRole("ADMIN")
+                .requestMatchers("/favorites", "/favorites/**").authenticated()
                 .requestMatchers("/apartments").permitAll()
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/apartments/*").permitAll()

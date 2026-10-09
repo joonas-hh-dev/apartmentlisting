@@ -180,8 +180,18 @@ public class ApartmentController {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.get();
         favoriteRepository.deleteByUserAndApartment(user, apartment);
-        return "redirect:/apartments";
+        return "redirect:/favorites";
     }
     
-    
+    // Show favorites
+    @GetMapping("/favorites")
+    public String showFavoriteList(Model model, Principal principal) {
+        String username = principal.getName();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        User user = optionalUser.get();
+        List<Favorite> favorites = favoriteRepository.findByUser(user);
+        model.addAttribute("favorites", favorites);
+        return "Favorites";
+    }
+
 }
