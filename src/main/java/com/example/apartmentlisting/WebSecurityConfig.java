@@ -2,6 +2,7 @@ package com.example.apartmentlisting;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,6 +29,9 @@ public class WebSecurityConfig {
                 .requestMatchers("/apartments").permitAll()
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/apartments/*").permitAll()
+                .requestMatchers("/api/csrf").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/apartments", "/api/apartments/**").permitAll()
+                .requestMatchers("/api/apartments", "/api/apartments/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             ).formLogin(form -> form
                 .defaultSuccessUrl("/apartments", true).permitAll())

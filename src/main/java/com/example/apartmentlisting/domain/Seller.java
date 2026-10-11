@@ -3,6 +3,8 @@ package com.example.apartmentlisting.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +27,9 @@ public class Seller {
     // Create one to many relationship
     // Initialize a list that can hold multiple apartments
     // Link to seller attribute in Apartment object
-    @OneToMany(mappedBy = "seller") 
+    @OneToMany(mappedBy = "seller")
+    // Add JsonIgnore to prevent class replationships from duplicating objects
+    @JsonIgnore 
     private List<Apartment> apartments = new ArrayList<>();
 
     public Seller(String firstName, String lastName, String phoneNumber, String email) {

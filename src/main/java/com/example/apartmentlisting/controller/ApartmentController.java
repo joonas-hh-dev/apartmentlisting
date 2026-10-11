@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,6 @@ import com.example.apartmentlisting.domain.User;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -82,6 +82,7 @@ public class ApartmentController {
     }
 
     // Save new apartment
+    @Secured("ROLE_ADMIN")
     @PostMapping("/apartments/add")
     public String saveAddApartmentForm(
         @RequestParam String type,
@@ -112,6 +113,7 @@ public class ApartmentController {
     }
 
     // Save edited apartment
+    @Secured("ROLE_ADMIN")
     @PostMapping("/apartments/edit/{id}")
     public String saveEditApartmentForm(
         @PathVariable Long id,
@@ -143,6 +145,7 @@ public class ApartmentController {
     }
 
     // Delete existing apartment
+    @Secured("ROLE_ADMIN")
     @GetMapping("/apartments/delete/{id}")
     public String deleteApartment(@PathVariable Long id, Model model) {
         apartmentRepository.deleteById(id);
