@@ -7,6 +7,7 @@
 <body>
     <div class="container mt-4">
         <form th:object="${apartment}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <label for="type" class="form-label">Asuntotyyppi:</label>
             <select th:field="*{type}" id="type" class="form-select">
                 <option value="">Valitse asuntotyyppi</option>
@@ -16,33 +17,41 @@
                 <option value="Omakotitalo">Omakotitalo</option>
                 <option value="Omakotitalo">Puutalo-osake</option>
             </select>
+             <div class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
             <div>
                 <label for="address" class="form-label">Osoite:</label>
                 <input type="text" class="form-control" th:field="*{address}">
+                <div class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
             </div>
             <div>
                 <label for="zipCode" class="form-label">Postinumero:</label>
                 <input type="text" class="form-control" th:field="*{zipCode}">
+                <div class="text-danger" th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"></div>
             </div>
             <div>
                 <label for="city" class="form-label">Kaupunki:</label>
                 <input type="text" class="form-control" th:field="*{city}">
+                <div class="text-danger" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
             </div>
             <div>
                 <label for="area" class="form-label">Pinta-ala:</label>
                 <input type="text" class="form-control" th:field="*{area}">
+                <div class="text-danger" th:if="${#fields.hasErrors('area')}" th:errors="*{area}"></div>
             </div>
             <div>
                 <label for="rooms" class="form-label">Huoneita:</label>
                 <input type="number" class="form-control" th:field="*{rooms}">
+                 <div class="text-danger" th:if="${#fields.hasErrors('rooms')}" th:errors="*{rooms}"></div>
             </div>
             <div>
                 <label for="yearBuilt" class="form-label">Rakennusvuosi:</label>
                 <input type="number" class="form-control" th:field="*{yearBuilt}">
+                <div class="text-danger" th:if="${#fields.hasErrors('yearBuilt')}" th:errors="*{yearBuilt}"></div>
             </div>
             <div>
                 <label for="floor" class="form-label">Kerros:</label>
                 <input type="number" class="form-control" th:field="*{floor}">
+                <div class="text-danger" th:if="${#fields.hasErrors('floor')}" th:errors="*{floor}"></div>
             </div>
             <label for="type" class="form-label">Myyjä:</label>
             <select th:field="*{seller}" class="form-select">
@@ -52,6 +61,7 @@
                 th:text="${seller.firstName + ' ' + seller.lastName}">
                 </option>
             </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}"></div>
             <button type="submit" class="btn btn-primary">Tallenna</button>
         </form>
     </div>

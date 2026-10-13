@@ -5,6 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;;
 
 @Entity 
 public class Apartment {
@@ -20,20 +24,42 @@ public class Apartment {
 
     // Define attributes
     // Set modifier to private so that values cannot be reassigned without setters
+    // Set validation for each attribute
+    @NotBlank(message = "Valitse asuntotyyppi")
     private String type;
+
+    @NotBlank(message = "Lisää osoite")
     private String address;
+
+    @NotBlank(message = "Lisää postinumero")
     private String zipCode;
+
+    @NotBlank(message = "Lisää kaupunki")
     private String city;
-    private String area;
-    private int rooms;
-    private int yearBuilt;
-    private int floor;
+
+    @NotNull(message = "Lisää pinta-ala")
+    @DecimalMin(value = "1.0", message = "Pinta-alan on oltava vähintään 1 m²")
+    private Double area;
+
+    @NotNull(message = "Lisää huoneiden määrä")
+    @Min(value = 1, message = "Huoneiden vähimmäismäärä on 1")
+    private Integer rooms;
+
+    @NotNull(message = "Lisää rakennusvuosi")
+    @Min(value = 1800, message = "Rakennusvuoden on oltava vähintään 1800")
+    private Integer yearBuilt;
+
+    @NotNull(message = "Lisää kerros")
+    @Min(value = -1, message = "Kerroksen on oltava vähintään -1")
+    private Integer floor;
+
+    @NotNull(message = "Valitse myyjä")
     @ManyToOne
     private Seller seller;
 
     // Define constructor
     // Set modifier to public so that other classes can create apartments
-    public Apartment(String type, String address, String zipCode, String city, String area, int rooms, int yearBuilt, int floor, Seller seller) {
+    public Apartment(String type, String address, String zipCode, String city, Double area, int rooms, int yearBuilt, int floor, Seller seller) {
         this.type = type;
         this.address = address;
         this.zipCode = zipCode;
@@ -66,19 +92,19 @@ public class Apartment {
         return city;
     }
 
-    public String getArea() {
+    public Double getArea() {
         return area;
     }
 
-    public int getRooms() {
+    public Integer getRooms() {
         return rooms;
     }
 
-    public int getYearBuilt() {
+    public Integer getYearBuilt() {
         return yearBuilt;
     }
 
-    public int getFloor() {
+    public Integer getFloor() {
         return floor;
     }
 
@@ -90,7 +116,7 @@ public class Apartment {
         this.id = id;
     }
 
-    public void setApartmentType(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -106,19 +132,19 @@ public class Apartment {
         this.city = city;
     }
 
-    public void setArea(String area) {
+    public void setArea(Double area) {
         this.area = area;
     }
 
-    public void setRooms(int rooms) {
+    public void setRooms(Integer rooms) {
         this.rooms = rooms;
     }
 
-    public void setYearBuilt(int yearBuilt) {
+    public void setYearBuilt(Integer yearBuilt) {
         this.yearBuilt = yearBuilt;
     }
 
-    public void setFloor(int floor) {
+    public void setFloor(Integer floor) {
         this.floor = floor;
     }
 

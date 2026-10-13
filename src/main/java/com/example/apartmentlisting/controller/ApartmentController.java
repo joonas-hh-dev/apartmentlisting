@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.apartmentlisting.repository.ApartmentRepository;
@@ -16,6 +18,7 @@ import com.example.apartmentlisting.repository.SellerRepository;
 import com.example.apartmentlisting.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 import com.example.apartmentlisting.domain.Apartment;
 import com.example.apartmentlisting.domain.Favorite;
@@ -82,24 +85,20 @@ public class ApartmentController {
     }
 
     // Save new apartment
+    // This was done first useing @RequestParam, but was later changed due to validation
     @Secured("ROLE_ADMIN")
     @PostMapping("/apartments/add")
     public String saveAddApartmentForm(
-        @RequestParam String type,
-        @RequestParam String address,
-        @RequestParam String zipCode,
-        @RequestParam String city,
-        @RequestParam String area,
-        @RequestParam int rooms,
-        @RequestParam int yearBuilt,
-        @RequestParam int floor,
-        @RequestParam Long seller
+        @Valid @ModelAttribute("apartment") Apartment apartment,
+        BindingResult bindingResult,
+        Model model
     ) {
-        Optional<Seller> result = sellerRepository.findById(seller);
-        Seller selectedSeller = result.get();       
-        Apartment apartment = new Apartment(type, address, zipCode, city, area, rooms, yearBuilt, floor, selectedSeller);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("sellers", sellerRepository.findAll());
+            return "AddApartment";
+        }
         apartmentRepository.save(apartment);
-        return "redirect:/apartments";
+        return "redirect:/apartments/add";
     }
 
     // Open edit apartment form
@@ -117,30 +116,26 @@ public class ApartmentController {
     @PostMapping("/apartments/edit/{id}")
     public String saveEditApartmentForm(
         @PathVariable Long id,
-        @RequestParam String type,
-        @RequestParam String address,
-        @RequestParam String zipCode,
-        @RequestParam String city,
-        @RequestParam String area,
-        @RequestParam int rooms,
-        @RequestParam int yearBuilt,
-        @RequestParam int floor,
-        @RequestParam Long seller
+        @Valid @ModelAttribute("apartment") Apartment apartment,
+        BindingResult bindingResult,
+        Model model
     ) {
         Optional<Apartment> optionalApartment = apartmentRepository.findById(id);
-        Apartment apartment = optionalApartment.get();
-        Optional<Seller> optionalSeller = sellerRepository.findById(seller);
-        Seller sellerId = optionalSeller.get();
-        apartment.setApartmentType(type);
-        apartment.setAddress(address);
-        apartment.setZipCode(zipCode);
-        apartment.setCity(city);
-        apartment.setArea(area);
-        apartment.setRooms(rooms);
-        apartment.setYearBuilt(yearBuilt);
-        apartment.setFloor(floor);
-        apartment.setSeller(sellerId);
-        apartmentRepository.save(apartment);
+        Apartment oldApartment = optionalApartment.get();
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("sellers", sellerRepository.findAll());
+            return "EditApartment";
+        }
+        oldApartment.setType(apartment.getType());
+        oldApartment.setAddress(apartment.getAddress());
+        oldApartment.setZipCode(apartment.getZipCode());
+        oldApartment.setCity(apartment.getCity());
+        oldApartment.setArea(apartment.getArea());
+        oldApartment.setFloor(apartment.getFloor());
+        oldApartment.setRooms(apartment.getRooms());
+        oldApartment.setYearBuilt(apartment.getYearBuilt());
+        oldApartment.setSeller(apartment.getSeller());
+        apartmentRepository.save(oldApartment);
         return "redirect:/apartments";
     }
 
