@@ -6,6 +6,16 @@
 </head>
 <body>
     <h2>Myytävät asunnot</h2>
+    <form th:action="@{/apartments}" method="get" class="mb-3">
+        <select id="city" name="city" onchange="this.form.submit()" class="form-select w-auto">
+            <option value="" th:selected="${selectedCity == null or selectedCity == ''}">Kaikki kaupungit</option>
+            <option th:each="availableCity : ${cities}"
+                th:value="${availableCity}"
+                th:text="${availableCity}"
+                th:selected="${availableCity == selectedCity}">
+            </option>
+        </select>
+    </form>
     <table class="table table-striped">
         <tr>
             <th>Kaupunki</th>
