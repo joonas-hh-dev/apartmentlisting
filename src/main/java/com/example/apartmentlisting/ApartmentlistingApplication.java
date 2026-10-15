@@ -24,32 +24,39 @@ public class ApartmentlistingApplication {
 	@Bean
 	public CommandLineRunner demoRunner(SellerRepository sellerRepository, ApartmentRepository apartmentRepository, UserRepository userRepository) {
 		return args -> {
-			Seller seller = new Seller("Mikko", "Mallikas", "+358401112233", "mikko.mallikas@esimerkki.com");
-			sellerRepository.save(seller);
+			if (apartmentRepository.count() == 0) {
+				Seller seller = new Seller("Mikko", "Mallikas", "+358401112233", "mikko.mallikas@esimerkki.com");
+				sellerRepository.save(seller);
 
-			Seller seller2 = new Seller("Erkki", "Esimerkki", "+358502223344", "erkki.esimerkki@malli.com");
-			sellerRepository.save(seller2);
+				Seller seller2 = new Seller("Erkki", "Esimerkki", "+358502223344", "erkki.esimerkki@malli.com");
+				sellerRepository.save(seller2);
 
-			Apartment apartment = new Apartment("Kerrostalo", "Ulvilantie 11 b C 80", "00350", "Helsinki", 33.5, 1, 1955, 8, seller);
-			apartmentRepository.save(apartment);
+				Apartment apartment = new Apartment("Kerrostalo", "Ulvilantie 11 b C 80", "00350", "Helsinki", 33.5, 1, 1955, 8, seller);
+				apartmentRepository.save(apartment);
 
-			Apartment apartment2 = new Apartment("Kerrostalo", "Sirkkalankatu 7 B 20", "20500", "Turku", 35.0, 1, 1972, 4, seller2);
-			apartmentRepository.save(apartment2);
+				Apartment apartment2 = new Apartment("Kerrostalo", "Sirkkalankatu 7 B 20", "20500", "Turku", 35.0, 1, 1972, 4, seller2);
+				apartmentRepository.save(apartment2);
 
-			Apartment apartment3 = new Apartment("Kerrostalo", "Niittaajankatu 10 B 19","00810", "Helsinki", 33.0, 1, 2019, 2, seller);
-			apartmentRepository.save(apartment3);
+				Apartment apartment3 = new Apartment("Kerrostalo", "Niittaajankatu 10 B 19","00810", "Helsinki", 33.0, 1, 2019, 2, seller);
+				apartmentRepository.save(apartment3);
 
-			Apartment apartment4 = new Apartment("Kerrostalo", "Vähä Hämeenkatu 5 C 15", "20500", "Turku", 30.0, 1, 1968, 3, seller2);
-			apartmentRepository.save(apartment4);
+				Apartment apartment4 = new Apartment("Kerrostalo", "Vähä Hämeenkatu 5 C 15", "20500", "Turku", 30.0, 1, 1968, 3, seller2);
+				apartmentRepository.save(apartment4);
+			}
 
 			// Create new BCryptPasswordEncoder  object
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-			User user = new User("user", passwordEncoder.encode("user"), "USER");
-			User user2 = new User("admin", passwordEncoder.encode("admin"), "ADMIN");
-	
-			userRepository.save(user);
-			userRepository.save(user2);
+			if (userRepository.findByUsername("user").isEmpty()) {
+				User user = new User("user", passwordEncoder.encode("user"), "USER");
+				userRepository.save(user);
+			}
+
+			if (userRepository.findByUsername("admin").isEmpty()) {
+				User user2 = new User("admin", passwordEncoder.encode("admin"), "ADMIN");
+				userRepository.save(user2);
+			}
+
 		};
 	}
 }
