@@ -15,6 +15,7 @@
             <th>Rakennusvuosi</th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         <tr th:each="favorite: ${favorites}" th:with="apartment=${favorite.apartment}">
             <td th:text="${apartment.city}"></td>

@@ -14,12 +14,14 @@ import com.example.apartmentlisting.repository.SellerRepository;
 @DataJpaTest
 class ApartmentRepositoryTest {
 
+    // Tell Spring Boot to automatically provide the object needed
     @Autowired 
 	private ApartmentRepository apartmentRepository;
 
     @Autowired 
     private SellerRepository sellerRepository;
 
+    // Test saving an apartment
     @Test 
     public void saveApartment() {
         Seller seller = new Seller("Matti", "Mallikas", "12345", "matti.mallikas@esimerkki.fi");
@@ -31,6 +33,7 @@ class ApartmentRepositoryTest {
         assertThat(savedApartment.getId()).isNotNull();
     }
 
+    // Test deleting an apartment
     @Test
     public void deleteApartment() {
         Seller seller = new Seller("Matti", "Mallikas", "12345", "matti.mallikas@esimerkki.fi");
@@ -43,6 +46,7 @@ class ApartmentRepositoryTest {
         assertThat(apartmentRepository.findById(savedApartment.getId())).isEmpty();
     }
 
+    // Test finding an apartment by city
     @Test
     public void findByCity() {
         Seller seller = new Seller("Matti", "Mallikas", "12345", "matti.mallikas@esimerkki.fi");

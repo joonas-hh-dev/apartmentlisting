@@ -10,21 +10,22 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;;
 
+// Declare @Entity to tell JPA that the class can be stored in a database
 @Entity 
 public class Apartment {
 
     // Create empty contructor so that JPA can create apartment objects
     public Apartment() {}
 
-    // Crate Id so that Apartment can be saved to JPA database
+    // Mark Id as the primary key
     // Set Id to autogenerate
     @Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     // Define attributes
-    // Set modifier to private so that values cannot be reassigned without setters
-    // Set validation for each attribute
+    // Set modifiers to private so that other classes cannot reassign them without setters
+    // Set appropriate validation for each attribute
     @NotBlank(message = "Valitse asuntotyyppi")
     private String type;
 
@@ -58,6 +59,7 @@ public class Apartment {
     private Integer price;
 
     @NotNull(message = "Valitse myyjä")
+    // Many apartments can belong to one seller
     @ManyToOne
     private Seller seller;
 

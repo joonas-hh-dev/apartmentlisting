@@ -24,12 +24,12 @@ public class Seller {
     private String lastName;
     private String phoneNumber;
     private String email;
-    // Create one to many relationship
-    // Initialize a list that can hold multiple apartments
+    // One seller can have many apartments
     // Link to seller attribute in Apartment object
     @OneToMany(mappedBy = "seller")
-    // Add JsonIgnore to prevent class replationships from duplicating objects
-    @JsonIgnore 
+    // Add JsonIgnore to prevent infinite loop
+    @JsonIgnore
+    // Initialize a list that can hold multiple apartments
     private List<Apartment> apartments = new ArrayList<>();
 
     public Seller(String firstName, String lastName, String phoneNumber, String email) {

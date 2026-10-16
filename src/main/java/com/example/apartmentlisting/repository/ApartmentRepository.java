@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import com.example.apartmentlisting.domain.Apartment;
 
+// Apartment is the entity being managed
+// Long is the primary key type
 public interface ApartmentRepository extends CrudRepository<Apartment, Long> {
     // Find apartments by city    
     List<Apartment> findByCity(String city);

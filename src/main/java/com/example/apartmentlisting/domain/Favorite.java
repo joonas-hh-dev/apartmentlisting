@@ -14,8 +14,10 @@ public class Favorite {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+    // One user can have many favorites
     @ManyToOne 
     private User user;
+    // One apartment can be in many users' favorites
     @ManyToOne
     private Apartment apartment;
 

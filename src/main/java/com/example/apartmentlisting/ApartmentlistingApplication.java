@@ -20,10 +20,11 @@ public class ApartmentlistingApplication {
 		SpringApplication.run(ApartmentlistingApplication.class, args);
 	}
 
-	// Initialize Seller object first
+	// Run this code when the application starts
 	@Bean
 	public CommandLineRunner demoRunner(SellerRepository sellerRepository, ApartmentRepository apartmentRepository, UserRepository userRepository) {
 		return args -> {
+			// Check if apartmentRepository is empty before adding dummy data
 			if (apartmentRepository.count() == 0) {
 				Seller seller = new Seller("Mikko", "Mallikas", "+358401112233", "mikko.mallikas@esimerkki.com");
 				sellerRepository.save(seller);
@@ -44,6 +45,7 @@ public class ApartmentlistingApplication {
 			// Create new BCryptPasswordEncoder  object
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+			// Check if "user" already exists to prevent duplicates
 			if (userRepository.findByUsername("user").isEmpty()) {
 				User user = new User("user", passwordEncoder.encode("user"), "USER");
 				userRepository.save(user);

@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
         @Bean
         // Allow CSS, listing & individual apartment pages
-        // Put everything else behind login
+        // Put everything else behind login or admin
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests(authorize -> authorize

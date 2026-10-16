@@ -1,3 +1,4 @@
+// Import the libraries
 package com.example.apartmentlisting.controller;
 
 import java.security.Principal;
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 
-// Declare the controller
+// Declare the controller class
 @Controller
 public class ApartmentController {
 
@@ -54,17 +55,19 @@ public class ApartmentController {
         this.userRepository = userRepository;
     }
 
-    // Pass the repository to the view using model.addAttribute
+    // Get all apartments
     @GetMapping("/apartments") 
     public String getApartmentList(
         @RequestParam(required = false) String city,
         Model model, Principal principal
     ) {
-        // Create a list of unique cities
+        // Create an array for cities
         List<String> cities = new ArrayList<>();
         
+        // Loop through all apartments in apartmentRepository
         for (Apartment apartment : apartmentRepository.findAll()) {
             String apartmentCity = apartment.getCity();
+            // Add city if it's not already in the array
             if (!cities.contains(apartmentCity)) {
                 cities.add(apartmentCity);
             }
@@ -74,13 +77,15 @@ public class ApartmentController {
         model.addAttribute("cities", cities);
         model.addAttribute("selectedCity", city);
 
-        // Find apartments by city
+        // Return apartments from all cities if no city has been selected
+        // If a city has been selected, return all apartments from that city
         if (city == null || city.isBlank()) {
             model.addAttribute("apartments", apartmentRepository.findAll());
         } else {
             model.addAttribute("apartments", apartmentRepository.findByCity(city));
         }
         
+        // Get user favorites from the favoriteRepository if the user is logged in
         if (principal != null) {
             String username = principal.getName();
             Optional<User> optionalUser = userRepository.findByUsername(username);
@@ -105,6 +110,7 @@ public class ApartmentController {
         }
     
         // Open add apartment form
+        // For admins only
         @Secured("ROLE_ADMIN")
         @GetMapping("/apartments/add")
         public String showAddApartmentForm(
@@ -116,12 +122,15 @@ public class ApartmentController {
         }
 
         // Save new apartment
-        // This was done first useing @RequestParam
-        // but was later changed due to validation issues
+        // This was done first using @RequestParam
+        // but was later changed to make validation easier
+        // For admins only
         @Secured("ROLE_ADMIN")
         @PostMapping("/apartments/add")
         public String saveAddApartmentForm(
+             // Add Valid to compare posted apartment with validation requirements
             @Valid @ModelAttribute("apartment") Apartment apartment,
+            // Add BindingResult to store possible errors
             BindingResult bindingResult,
             Model model
         ) {
@@ -135,6 +144,7 @@ public class ApartmentController {
     }
 
     // Open edit apartment form
+    // For admins only
     @Secured("ROLE_ADMIN")
     @GetMapping("/apartments/edit/{id}")
     public String showEditApartmentForm(
@@ -149,6 +159,7 @@ public class ApartmentController {
     }
 
     // Save edited apartment
+    // For admins only
     @Secured("ROLE_ADMIN")
     @PostMapping("/apartments/edit/{id}")
     public String saveEditApartmentForm(
@@ -178,6 +189,7 @@ public class ApartmentController {
     }
 
     // Delete existing apartment
+    // For admins only
     @Secured("ROLE_ADMIN")
     @GetMapping("/apartments/delete/{id}")
     public String deleteApartment(
@@ -205,6 +217,7 @@ public class ApartmentController {
         String username = principal.getName();
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.get();
+        // Create new favorite if the apartment is not in that user's favorites already
         if (!favoriteRepository.existsByUserAndApartment(user, apartment)) {
             Favorite favorite = new Favorite(user, apartment);
             favoriteRepository.save(favorite);
@@ -214,6 +227,9 @@ public class ApartmentController {
     }
     
     // Delete favorite
+    // This is a custom method
+    // As there is no built-in transaction handling for it in JPA
+    // @Transactional is needed
     @Transactional 
     @PostMapping("/favorites/delete/{id}")
     public String deleteFromFavorites(
@@ -227,13 +243,18 @@ public class ApartmentController {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.get();
         favoriteRepository.deleteByUserAndApartment(user, apartment);
+        // Favorites can be deleted from two places: /apartments & /favorites
+        // I want to keep the user on the current page after deletion
+        // I get redirect value from hidden field on /apartments
+        // If the value is /apartments, the user is redirected to that page
+        // Else the user is redirected to /favorites
         if (redirect.equals("/apartments")) {
             return "redirect:/apartments";
         }
         return "redirect:/favorites";
     }
     
-    // Show favorites
+    // Get favorites
     @GetMapping("/favorites")
     public String showFavoriteList(
         Model model,
