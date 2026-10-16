@@ -53,6 +53,11 @@
                 <input type="number" class="form-control" th:field="*{floor}">
                 <div class="text-danger" th:if="${#fields.hasErrors('floor')}" th:errors="*{floor}"></div>
             </div>
+            <div>
+                <label for="price" class="form-label">Hinta:</label>
+                <input type="number" class="form-control" th:field="*{price}">
+                <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+            </div>
             <label for="type" class="form-label">Myyjä:</label>
             <select th:field="*{seller}" class="form-select">
                 <option value="">Valitse myyjä</option>
@@ -63,6 +68,7 @@
             </select>
             <div class="text-danger" th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}"></div>
             <button type="submit" class="btn btn-primary">Tallenna</button>
+            <a th:href="@{/apartments}" class="btn btn-info">Etusivulle</a>
         </form>
     </div>
 </body>

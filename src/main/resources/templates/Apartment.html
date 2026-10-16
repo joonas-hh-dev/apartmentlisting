@@ -2,19 +2,29 @@
 <html xmlns:th="https://www.thymeleaf.org/">
 <head>
     <title th:text="${apartment.address}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 </head>
 <body>
-    <h2 th:text="${apartment.address}"></h2>
-    <p>Tyyppi: <span th:text="${apartment.type}"></span></p>
-    <p>Osoite: <span th:text="${apartment.address}"></span></p>
-    <p>Postinumero: <span th:text="${apartment.zipCode}"></span></p>
-    <p>Kaupunki: <span th:text="${apartment.city}"></span></p>
-    <p>Huoneita: <span th:text="${apartment.rooms}"></span></p>
-    <p>Pinta-ala: <span th:text="${apartment.area}"></span></p>
-    <p>Kerros: <span th:text="${apartment.floor}"></span></p>
-    <p>Rakennusvuosi: <span th:text="${apartment.yearBuilt}"></span></p>
-    <p>Myyjä:  <span th:text="${apartment.seller.firstName + ' ' + apartment.seller.lastName}"></span></p>
-    <a th:href="'tel:' + ${apartment.seller.phoneNumber}" th:text="'Soita'"></a>
-    <a th:href="'mailto:' + ${apartment.seller.email}" th:text="'Lähetä sähköpostia'"></a>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title" th:text="${apartment.address}"></h2>
+                <p class="card-text">Tyyppi: <span th:text="${apartment.type}"></span></p>
+                <p class="card-text">Osoite: <span th:text="${apartment.address}"></span></p>
+                <p class="card-text">Postinumero: <span th:text="${apartment.zipCode}"></span></p>
+                <p class="card-text">Kaupunki: <span th:text="${apartment.city}"></span></p>
+                <p class="card-text">Huoneita: <span th:text="${apartment.rooms}"></span></p>
+                <p class="card-text">Pinta-ala: <span th:text="${apartment.area}"></span> m²</p>
+                <p class="card-text">Kerros: <span th:text="${apartment.floor}"></span></p>
+                <p class="card-text">Hinta: <span th:text="${apartment.price} + ' €'"></span></p>
+                <p class="card-text">Rakennusvuosi: <span th:text="${apartment.yearBuilt}"></span></p>
+                <p class="card-text">Myyjä:  <span th:text="${apartment.seller.firstName + ' ' + apartment.seller.lastName}"></span></p>
+                <a class="btn btn-primary" th:href="'tel:' + ${apartment.seller.phoneNumber}" th:text="'Soita'"></a>
+                <a class="btn btn-outline-primary" th:href="'mailto:' + ${apartment.seller.email}" th:text="'Lähetä sähköpostia'"></a>
+                <a th:href="@{/apartments}" class="btn btn-secondary">Etusivulle</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -27,6 +27,7 @@
             <th></th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         <tr th:each="apartment: ${apartments}">
             <td th:text="${apartment.city}"></td>
@@ -34,11 +35,13 @@
             <td th:text="${apartment.type}"></td>
             <td th:text="${apartment.rooms}"></td>
             <td th:text="${apartment.yearBuilt}"></td>
+            <td th:text="${apartment.price} + ' €'"></td>
             <td>
                 <a th:href="@{/apartments/{id}(id=${apartment.id})}" class="btn btn-primary">Näytä</a>
             </td>
             <td>
                 <form th:if="${favorites != null}" th:action="${favorites.![apartment].contains(apartment)} ? @{/favorites/delete/{id}(id=${apartment.id})} : @{/favorites/add/{id}(id=${apartment.id})}" method="post">
+                    <input type="hidden" name="redirect" value="/apartments">
                     <button type="submit" class="btn btn-link text-decoration-none p-1" title="Lisää suosikiksi">
                         <span th:if="${favorites.![apartment].contains(apartment)}">★</span>
                         <span th:unless="${favorites.![apartment].contains(apartment)}">☆</span>

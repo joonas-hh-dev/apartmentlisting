@@ -22,6 +22,7 @@
             <td th:text="${apartment.type}"></td>
             <td th:text="${apartment.rooms}"></td>
             <td th:text="${apartment.yearBuilt}"></td>
+            <td th:text="${apartment.price} + ' €'"></td>
             <td>
                 <a th:href="@{/apartments/{id}(id=${apartment.id})}" class="btn btn-primary">Näytä</a>
             </td>

@@ -31,17 +31,14 @@ public class ApartmentlistingApplication {
 				Seller seller2 = new Seller("Erkki", "Esimerkki", "+358502223344", "erkki.esimerkki@malli.com");
 				sellerRepository.save(seller2);
 
-				Apartment apartment = new Apartment("Kerrostalo", "Ulvilantie 11 b C 80", "00350", "Helsinki", 33.5, 1, 1955, 8, seller);
+				Apartment apartment = new Apartment("Kerrostalo", "Prinssintie 4 B", "00820", "Helsinki", 51.5, 2, 1956, 4, 199900, seller);
 				apartmentRepository.save(apartment);
 
-				Apartment apartment2 = new Apartment("Kerrostalo", "Sirkkalankatu 7 B 20", "20500", "Turku", 35.0, 1, 1972, 4, seller2);
+				Apartment apartment2 = new Apartment("Kerrostalo", "Sirkkalankatu 4", "20520", "Turku", 73.5, 3, 1968, 6, 278000, seller2);
 				apartmentRepository.save(apartment2);
 
-				Apartment apartment3 = new Apartment("Kerrostalo", "Niittaajankatu 10 B 19","00810", "Helsinki", 33.0, 1, 2019, 2, seller);
+				Apartment apartment3 = new Apartment("Kerrostalo", "Aspinniemenkatu 3 A 19","33180", "Tampere", 45.0, 2, 2026, 5, 321200, seller);
 				apartmentRepository.save(apartment3);
-
-				Apartment apartment4 = new Apartment("Kerrostalo", "Vähä Hämeenkatu 5 C 15", "20500", "Turku", 30.0, 1, 1968, 3, seller2);
-				apartmentRepository.save(apartment4);
 			}
 
 			// Create new BCryptPasswordEncoder  object

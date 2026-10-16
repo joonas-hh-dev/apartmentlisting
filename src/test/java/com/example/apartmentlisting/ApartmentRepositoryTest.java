@@ -25,7 +25,7 @@ class ApartmentRepositoryTest {
         Seller seller = new Seller("Matti", "Mallikas", "12345", "matti.mallikas@esimerkki.fi");
         sellerRepository.save(seller);
 
-        Apartment apartment = new Apartment("Kerrostalo", "Testikatu 1", "02100", "Espoo", 65.0, 2, 1965, 6, seller);
+        Apartment apartment = new Apartment("Kerrostalo", "Testikatu 1", "02100", "Espoo", 65.0, 2, 1965, 6, 200000, seller);
         Apartment savedApartment = apartmentRepository.save(apartment);
 
         assertThat(savedApartment.getId()).isNotNull();
@@ -36,7 +36,7 @@ class ApartmentRepositoryTest {
         Seller seller = new Seller("Matti", "Mallikas", "12345", "matti.mallikas@esimerkki.fi");
         sellerRepository.save(seller);
 
-        Apartment apartment = new Apartment("Kerrostalo", "Testikatu 1", "02100", "Espoo", 65.0, 2, 1965, 6, seller);
+        Apartment apartment = new Apartment("Kerrostalo", "Testikatu 1", "02100", "Espoo", 65.0, 2, 1965, 6, 200000, seller);
         Apartment savedApartment = apartmentRepository.save(apartment);
 
         apartmentRepository.deleteById(savedApartment.getId());
@@ -48,7 +48,7 @@ class ApartmentRepositoryTest {
         Seller seller = new Seller("Matti", "Mallikas", "12345", "matti.mallikas@esimerkki.fi");
         sellerRepository.save(seller);
 
-        Apartment apartment = new Apartment("Kerrostalo", "Testikatu 1", "02100", "Espoo", 65.0, 2, 1965, 6, seller);
+        Apartment apartment = new Apartment("Kerrostalo", "Testikatu 1", "02100", "Espoo", 65.0, 2, 1965, 6, 200000, seller);
         apartmentRepository.save(apartment);
 
         List<Apartment> results = apartmentRepository.findByCity("Espoo");

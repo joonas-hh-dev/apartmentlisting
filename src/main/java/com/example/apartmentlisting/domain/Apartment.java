@@ -53,13 +53,17 @@ public class Apartment {
     @Min(value = -1, message = "Kerroksen on oltava vähintään -1")
     private Integer floor;
 
+    @NotNull(message = "Lisää hinta")
+    @Min(value = 1, message = "Hinnan on oltava vähintään 1 €")
+    private Integer price;
+
     @NotNull(message = "Valitse myyjä")
     @ManyToOne
     private Seller seller;
 
     // Define constructor
     // Set modifier to public so that other classes can create apartments
-    public Apartment(String type, String address, String zipCode, String city, Double area, int rooms, int yearBuilt, int floor, Seller seller) {
+    public Apartment(String type, String address, String zipCode, String city, Double area, int rooms, int yearBuilt, int floor, int price, Seller seller) {
         this.type = type;
         this.address = address;
         this.zipCode = zipCode;
@@ -68,6 +72,7 @@ public class Apartment {
         this.rooms = rooms;
         this.yearBuilt = yearBuilt;
         this.floor = floor;
+        this.price = price;
         this.seller = seller;
     }
 
@@ -108,6 +113,10 @@ public class Apartment {
         return floor;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
+
     public Seller getSeller() {
         return seller;
     }
@@ -146,6 +155,10 @@ public class Apartment {
 
     public void setFloor(Integer floor) {
         this.floor = floor;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public void setSeller(Seller seller) {

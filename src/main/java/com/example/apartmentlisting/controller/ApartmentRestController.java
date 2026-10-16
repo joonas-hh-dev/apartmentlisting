@@ -1,16 +1,13 @@
 package com.example.apartmentlisting.controller;
 
-import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.apartmentlisting.repository.ApartmentRepository;
@@ -19,21 +16,14 @@ import com.example.apartmentlisting.repository.SellerRepository;
 import jakarta.validation.Valid;
 
 import com.example.apartmentlisting.domain.Apartment;
-import com.example.apartmentlisting.domain.Seller;
-
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.validation.BindingResult;
 
 @RestController
 public class ApartmentRestController {
 
     private ApartmentRepository apartmentRepository;
-    private SellerRepository sellerRepository;
-
     public ApartmentRestController(ApartmentRepository apartmentRepository, SellerRepository sellerRepository) {
         this.apartmentRepository = apartmentRepository;
-        this.sellerRepository = sellerRepository;
     }
 
     // Show all apartments
@@ -78,6 +68,7 @@ public class ApartmentRestController {
         oldApartment.setRooms(apartment.getRooms());
         oldApartment.setYearBuilt(apartment.getYearBuilt());
         oldApartment.setFloor(apartment.getFloor());
+        oldApartment.setPrice(apartment.getPrice());
         oldApartment.setSeller(apartment.getSeller());
         return apartmentRepository.save(oldApartment);
     }

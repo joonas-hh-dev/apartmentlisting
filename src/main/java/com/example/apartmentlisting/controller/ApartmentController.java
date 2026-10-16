@@ -131,7 +131,7 @@ public class ApartmentController {
             }
             
             apartmentRepository.save(apartment);
-            return "redirect:/apartments/add";
+            return "redirect:/apartments";
     }
 
     // Open edit apartment form
@@ -170,6 +170,7 @@ public class ApartmentController {
         oldApartment.setArea(apartment.getArea());
         oldApartment.setFloor(apartment.getFloor());
         oldApartment.setRooms(apartment.getRooms());
+        oldApartment.setPrice(apartment.getPrice());
         oldApartment.setYearBuilt(apartment.getYearBuilt());
         oldApartment.setSeller(apartment.getSeller());
         apartmentRepository.save(oldApartment);
@@ -216,8 +217,9 @@ public class ApartmentController {
     @Transactional 
     @PostMapping("/favorites/delete/{id}")
     public String deleteFromFavorites(
-        @PathVariable  Long id
-        , Principal principal
+        @PathVariable  Long id,
+        Principal principal,
+        @RequestParam(defaultValue = "/favorites") String redirect
     ) {
         Optional<Apartment> optionalApartment = apartmentRepository.findById(id);
         Apartment apartment = optionalApartment.get();
@@ -225,6 +227,9 @@ public class ApartmentController {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.get();
         favoriteRepository.deleteByUserAndApartment(user, apartment);
+        if (redirect.equals("/apartments")) {
+            return "redirect:/apartments";
+        }
         return "redirect:/favorites";
     }
     
