@@ -30,8 +30,6 @@ import com.example.apartmentlisting.domain.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
 // Declare the controller class
 @Controller
 public class ApartmentController {
@@ -61,6 +59,8 @@ public class ApartmentController {
         @RequestParam(required = false) String city,
         Model model, Principal principal
     ) {
+        // Create the filter
+        
         // Create an array for cities
         List<String> cities = new ArrayList<>();
         
